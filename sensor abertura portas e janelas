@@ -1,0 +1,40 @@
+
+//Sensor Magnético MC - 38 - Raymundo José Marinho Filho
+
+#define BLYNK_PRINT Serial
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>
+BlynkTimer timer;
+char auth[] = "xxxxxxxx"; /// chave de autenticação blynk - colocar a sua
+char ssid[] = "xxxxxx"; //Nome rede wifi - colocar a sua
+char pass[] = "xxxxxx"; // Senha WI-FI - colocar a sua
+
+
+
+void notifyOnButtonPress()
+{
+  int botao = digitalRead(D1);  // leitura do pino d1
+  if (botao == HIGH) // leitura do valor de D1 
+  {
+    Serial.println("A porta foi aberta"); // impressão no monitor serial arduino
+    Blynk.notify("A porta foi aberta"); // notificação app blynk
+    
+  }
+  else if (botao == LOW) // leitura do valor DE D1
+  {
+    Blynk.notify("A porta foi fechada"); // PORTA FECHADA NOTIFCAÇÃO BLYNK
+    Serial.println("A porta foi fechada"); // IMPRESSÃO MONITOR SERIAL PORTA FECHADA
+  }
+}
+void setup()
+{
+Serial.begin(115200); // VELOCIDADE MONITOR SERIAL
+Blynk.begin(auth, ssid, pass); // CONEXÃO ESP8266 COM A REDE WIFI
+pinMode(D1,INPUT_PULLUP); // RESISTORES DE PULL UP
+timer.setInterval(1000L,notifyOnButtonPress); // INTERVALO NOTIFCAÇÕES
+}
+void loop()
+{
+  Blynk.run(); // INICIAR BLYNK
+  timer.run(); // INICIAR TIMER
+}
