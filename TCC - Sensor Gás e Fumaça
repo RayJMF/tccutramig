@@ -1,0 +1,48 @@
+#define BLYNK_PRINT Serial
+#include <BlynkSimpleEsp8266.h>
+BlynkTimer timer;
+
+char auth[] = "xxxxxxx"; // autenticação Blynk
+
+
+char ssid[] = "xxxx"; // wi-fi nome rede ssid
+char pass[] = "xxxx"; // senha wi-fi
+
+
+#define MQ2 A0 // pino analogico nodemcu
+int sensorValor = 0; // valor sensor
+
+
+void setup()
+{
+  
+  Serial.begin(115200); // monoitor serial ide
+  Blynk.begin(auth, ssid, pass); // conexãi Blynk
+  pinMode(MQ2, INPUT); // define o pino onde mq-2 estar conectado como entrada
+  timer.setInterval(1000L, sendUptime); // intervalo de envio
+}
+
+void sendUptime()
+{
+  
+  sensorValor = analogRead(MQ2); // leitura do sensor mq-2 (porta A0)
+  Blynk.virtualWrite(V1, sensorValor); // pino v1 do medidor do app Blnk mostra a quantidade por PPM
+  Serial.println(sensorValor); // monitor serial do arduino
+
+  if (sensorValor > 600) // valor maior do que 600
+  {
+    Blynk.notify("Gas Detectado!"); // notificação no app Blynk
+    
+  }
+
+  else
+  {
+   
+  }
+}
+
+void loop()
+{
+  Blynk.run(); // iniciar Blynk
+  timer.run(); // contador
+}
