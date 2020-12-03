@@ -11,7 +11,7 @@ char pass[] = "xxxxxx"; // Senha WI-FI - colocar a sua
 
 
 
-void notifyOnButtonPress()
+void leitura()
 {
   int botao = digitalRead(D1);  // leitura do pino d1
   if (botao == HIGH) // leitura do valor de D1 
@@ -31,7 +31,7 @@ void setup()
 Serial.begin(115200); // VELOCIDADE MONITOR SERIAL
 Blynk.begin(auth, ssid, pass); // CONEXÃO ESP8266 COM A REDE WIFI
 pinMode(D1,INPUT_PULLUP); // RESISTORES DE PULL UP
-timer.setInterval(1000L,notifyOnButtonPress); // INTERVALO NOTIFCAÇÕES
+timer.setInterval(1000L,leitura); // INTERVALO NOTIFCAÇÕES
 }
 void loop()
 {
