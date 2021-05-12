@@ -36,11 +36,11 @@ void loop()
       pirValor = digitalRead(D1); // leitura do pino D1 do sensor 
      if (pinValor == HIGH)    // detecta se tem alguma alteração no sensor
       {
-        getpirValor(); //  executa essa função
+        getpirValor(); //  armazenaa valor na função
         digitalWrite(ledPin, pirValor); //  acende led
         
       }
-      else
+      else // senão
       { 
         digitalWrite(ledPin, LOW); //  se não houver alteração led desligado
       }
